@@ -1,0 +1,9 @@
+<div>
+  <form action="{% url 'create_party' %}" method="post">
+  <table>
+    {% csrf_token %}
+    {{ formset.as_table }}
+  </table>
+  <button type="submit">submit</button>
+  </form>
+</div>

@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from party import views
 
 urlpatterns = [
+    url(r'^$', views.create_party, name="create_party"),
     url(r'^admin/', admin.site.urls),
+    url(r'^(?P<party_uuid>.*)/', views.show_party, name="show_party"),
 ]
