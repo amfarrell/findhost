@@ -23,4 +23,11 @@ def test_create_party():
     }, {'party': party, 'name': 'Market Basket',
         'address': '400 Somerville Ave, Somerville, MA 02143',
     }]
-    Member.objects.bulk_create(member_data)
+    #bulk_create does not create primary keys
+    members = []
+    for member_args in member_data:
+        members.append(Member.objects.create(**member_args))
+    party.best_host = members[3]
+    party.save()
+    assert Party.objects.all()[0].best_host.address == \
+        member_data[3]['address']
