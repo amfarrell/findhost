@@ -1,0 +1,4 @@
+pytest
+requests
+dj_database_url
+django
