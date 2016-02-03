@@ -78,7 +78,6 @@ def test_create_party_with_only_three_members():
     assert members[2].name == form_submitted_data['member_set-2-name']
     assert members[2].party == members[1].party
 
-@now
 def test_create_party_handle_empty_form_rows():
     """
     Check that submitting a form with only 3 addresses filled in but
