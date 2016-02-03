@@ -70,6 +70,8 @@ def test_create_party_with_only_three_members():
         form_submitted_data
     )
 
+    assert 302 == response.status_code
+
     members = tuple(Member.objects.select_related('party').all())
 
     assert len(members) == 3
