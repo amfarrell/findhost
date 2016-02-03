@@ -1,0 +1,35 @@
+{
+  "name": "findhost-assets",
+  "version": "0.0.1",
+  "description": "Frontend assets for findhost: deciding which friend should host a board game night.",
+  "main": "index.js",
+  "scripts": {
+    "build": "./node_modules/.bin/webpack --config webpack.config.js",
+    "watch": "./node_modules/.bin/webpack --config webpack.config.js --watch",
+    "start": "node devserver.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amfarrell/reproduce-webpack-django-tutorial-error.git"
+  },
+  "author": "Andrew M. Farrell",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amfarrell/reproduce-webpack-django-tutorial-error/issues"
+  },
+  "homepage": "https://github.com/amfarrell/reproduce-webpack-django-tutorial-error#readme",
+  "devDependencies": {
+    "babel": "^6.3.26",
+    "babel-loader": "^6.2.1",
+    "babel-plugin-transform-react-jsx": "^6.4.0",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "react-hot-loader": "^1.3.0",
+    "webpack": "^1.12.12",
+    "webpack-bundle-tracker": "0.0.93",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "dependencies": {
+    "babel-core": "^6.4.5"
+  }
+}
