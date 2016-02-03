@@ -1,9 +1,21 @@
-<div>
-  <form action="{% url 'create_party' %}" method="post">
-  <table>
-    {% csrf_token %}
-    {{ formset.as_table }}
-  </table>
-  <button type="submit">submit</button>
-  </form>
-</div>
+{% load render_bundle from webpack_loader %}
+<html>
+  <head>
+    {% render_bundle 'main' 'css' %}
+  </head>
+  <body>
+    <div>
+      <form action="{% url 'create_party' %}" method="post">
+      <table>
+        {% csrf_token %}
+        {{ formset.as_table }}
+      </table>
+      <button type="submit">submit</button>
+      </form>
+    </div>
+    <div id="react-app">
+      should be replaced
+    </div>
+    {% render_bundle 'main' 'js' %}
+  </body>
+</html>
