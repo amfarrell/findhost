@@ -12,5 +12,8 @@ class Party(models.Model):
 
 class Member(models.Model):
     party = models.ForeignKey('party.Party', on_delete=models.CASCADE)
-    name = models.CharField(max_length = 128)
-    address = models.TextField()
+    name = models.CharField(max_length = 128, null=False, blank=False)
+    address = models.TextField(null=False, blank=False)
+
+    def __str__(self):
+        return "{} who lives at {}".format(self.name, self.address.split('\n')[0])
