@@ -39,7 +39,6 @@ def test_create_party():
     assert Party.objects.all()[0].best_host.address == \
         member_data[3]['address']
 
-@now
 @pytest.mark.django_db
 def test_create_party_with_only_three_members():
     """
@@ -79,6 +78,7 @@ def test_create_party_with_only_three_members():
     assert members[2].name == form_submitted_data['member_set-2-name']
     assert members[2].party == members[1].party
 
+@now
 def test_create_party_handle_empty_form_rows():
     """
     Check that submitting a form with only 3 addresses filled in but
@@ -88,7 +88,7 @@ def test_create_party_handle_empty_form_rows():
         'csrfmiddlewaretoken': 'uYfPMpXM6rknE812cZxQfxqckfUzIv0E',
         'member_set-INITIAL_FORMS': '0',
         'member_set-MIN_NUM_FORMS': '0',
-        'member_set-TOTAL_FORMS': '7',
+        'member_set-TOTAL_FORMS': '5',
         'member_set-MAX_NUM_FORMS': '1000',
         'member_set-0-id': '',
         'member_set-0-party': '',
@@ -111,3 +111,14 @@ def test_create_party_handle_empty_form_rows():
         'member_set-4-name': '',
         'member_set-4-address': '',
     }
+    response = Client().post(
+        reverse('create_party'),
+        form_submitted_data
+    )
+
+    import pdb;pdb.set_trace()
+    assert 200 == response.status_code
+    assert 'name' in response.context['formset'].errors[3]
+    assert 'address' in response.context['formset'].errors[3]
+    assert 'name' in response.context['formset'].errors[4]
+    assert 'address' in response.context['formset'].errors[4]
