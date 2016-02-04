@@ -6,8 +6,8 @@
   "scripts": {
     "build": "./node_modules/.bin/webpack --config webpack.config.js",
     "watch": "./node_modules/.bin/webpack --config webpack.config.js --watch",
-    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper",
-    "test:watch": "npm run test -- --watch",
+    "test": "mocha --compilers js:babel-core/register --colors --require ./test/test_helper.js 'test/**/*.@(js|jsx)'",
+    "test:watch": "watch-run -p 'assets/js/**/*.@(js|jsx),test/**/*.@(js|jsx)' npm run test",
     "start": "node devserver.js"
   },
   "repository": {
@@ -32,8 +32,10 @@
     "jsdom": "^8.0.2",
     "mocha": "^2.4.5",
     "react": "^0.14.7",
+    "react-addons-test-utils": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-hot-loader": "^1.3.0",
+    "watch-run": "^1.2.4",
     "webpack": "^1.12.12",
     "webpack-bundle-tracker": "0.0.93",
     "webpack-dev-server": "^1.14.1"
