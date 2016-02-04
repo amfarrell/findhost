@@ -5,17 +5,11 @@
   </head>
   <body>
     <div>
-      <form action="{% url 'create_party' %}" method="post">
-      <table>
-        {% csrf_token %}
-        {{ formset.as_table }}
-      </table>
-      <button type="submit">submit</button>
-      </form>
+      <script>
+        window.csrftoken = "{{ csrf_token }}"
+      </script>
+      <div id="app">Text is replaced</div>
+      {% render_bundle 'main' 'js' %}
     </div>
-    <div id="react-app">
-      should be replaced
-    </div>
-    {% render_bundle 'main' 'js' %}
   </body>
 </html>
