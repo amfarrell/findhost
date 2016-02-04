@@ -6,6 +6,8 @@
   "scripts": {
     "build": "./node_modules/.bin/webpack --config webpack.config.js",
     "watch": "./node_modules/.bin/webpack --config webpack.config.js --watch",
+    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper",
+    "test:watch": "npm run test -- --watch",
     "start": "node devserver.js"
   },
   "repository": {
@@ -20,8 +22,15 @@
   "homepage": "https://github.com/amfarrell/reproduce-webpack-django-tutorial-error#readme",
   "devDependencies": {
     "babel": "^6.3.26",
-    "babel-loader": "^6.2.1",
+    "babel-core": "^6.4.5",
+    "babel-loader": "^6.2.2",
     "babel-plugin-transform-react-jsx": "^6.4.0",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "chai": "^3.5.0",
+    "chai-immutable": "^1.5.3",
+    "jsdom": "^8.0.2",
+    "mocha": "^2.4.5",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-hot-loader": "^1.3.0",
@@ -29,7 +38,15 @@
     "webpack-bundle-tracker": "0.0.93",
     "webpack-dev-server": "^1.14.1"
   },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
+  },
   "dependencies": {
-    "babel-core": "^6.4.5"
+    "immutable": "^3.7.6",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7"
   }
 }

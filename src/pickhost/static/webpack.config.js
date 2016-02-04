@@ -6,15 +6,21 @@ module.exports = {
   context: __dirname,
 
   entry: [
-    'webpack-dev-server/client?http://localhost:3000',
+    'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
     './assets/js/index'
   ],
-  
+
   output: {
-      path: path.resolve('./assets/bundles/'),
-      filename: "[name]-[hash].js",
-      publicPath: 'http://localhost:3000/assets/bundles/'
+    path: __dirname + '/dist',
+    publicPath: '/',
+    filename: "bundle.js"
+//      path: path.resolve('./assets/bundles/'),
+//      filename: "[name]-[hash].js",
+//      publicPath: 'http://localhost:3000/assets/bundles/'
+  },
+  devServer: {
+    contentBase: './dist'
   },
 
   plugins: [
@@ -24,8 +30,12 @@ module.exports = {
   ],
 
   module: {
-    loaders: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader'}, // to transform JSX into JS
+    loaders: [{
+       test: /\.jsx?$/,
+       exclude: /node_modules/,
+    //   loader: 'babel-loader'
+       loader: 'react-hot!babel'
+     }, // to transform JSX into JS
     ],
   },
 
