@@ -3,11 +3,67 @@ import {List} from 'immutable';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
-import Voting from '../../assets/js/components/Voting';
+import AddressFormSet from '../../assets/js/components/AddressFormSet';
+import MemberForm from '../../assets/js/components/MemberForm';
 
-const {renderIntoDocument, scryRenderedDOMComponentsWithTag, Simulate}
-  = TestUtils;
+const {
+  renderIntoDocument,
+  scryRenderedDOMComponentsWithTag,
+  findRenderedDOMComponentWithTag,
+  scryRenderedDOMComponentsWithClass,
+  scryRenderedComponentsWithType,
+  Simulate
+} = TestUtils;
 
+const TableWrapper = React.createClass({
+  render: function() {
+    return (
+      <table>{this.props.children}</table>
+    )
+  }
+})
+
+describe('Member Formset', () => {
+  it('renders a specified number of MemberForms', () => {
+    const num_memberforms = 4
+    const component = renderIntoDocument(
+      <AddressFormSet total_forms={num_memberforms} initial_forms={0} max_forms={7} action='/'
+         method='post' csrftoken={window.csrftoken}/>
+    )
+    const memberforms = scryRenderedComponentsWithType(component, MemberForm)
+    expect(memberforms.length).to.equal(num_memberforms)
+  })
+})
+
+describe('Member Form', () => {
+  it('has the correct names for inputs', () => {
+    const i = 3;
+    const component = renderIntoDocument(
+      <TableWrapper>
+        <MemberForm membernumber={i} key={'form-member-'+i} />
+      </TableWrapper>
+    )
+    const inputs = scryRenderedDOMComponentsWithTag(component, 'input')
+    const names = inputs.map((input) => input.name)
+    expect(names).to.include("member_set-"+i+"-name")
+    expect(names).to.include("member_set-"+i+"-id")
+    expect(names).to.include("member_set-"+i+"-party")
+  })
+
+  it('has the correct name for textareas', () => {
+    const i = 3;
+    const component = renderIntoDocument(
+      <TableWrapper>
+        <MemberForm membernumber={i} key={'form-member-'+i} />
+      </TableWrapper>
+    )
+    const textarea = findRenderedDOMComponentWithTag(component, 'textarea')
+    expect(textarea.name).to.equal("member_set-"+i+"-address")
+  })
+})
+
+
+/*
 describe('Voting', () => {
   it('renders a pair of buttons', () => {
     const component = renderIntoDocument(
@@ -75,3 +131,5 @@ describe('Voting', () => {
     expect(firstButton.textContent).to.equal('Trainspotting');
   });
 })
+
+*/
