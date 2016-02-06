@@ -11,6 +11,6 @@ export default React.createClass({
   */
   render: function() {
     const num = this.props.membernumber
-    return <textarea cols="40" id={"id_member_set-"+num+"-address"} name={"member_set-"+num+"-address"} rows="2"></textarea>
+    return <textarea cols="40" id={"id_member_set-"+num+"-address"} name={"member_set-"+num+"-address"} rows="2" value={this.props.member.address}></textarea>
   }
 })

@@ -1,15 +1,55 @@
 console.log('I am alive!');
 
 import React from 'react';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux'
 import ReactDOM from 'react-dom';
-import AddressFormSet from './components/AddressFormSet.jsx';
+import {AddressFormSetContainer} from './components/AddressFormSet.jsx';
+import reducer from './reducer'
+import Router, {Route} from 'react-router';
+import App from './app'
 
 if ('undefined' == typeof(window.csrftoken)){
   throw "Must declare csrftoken as an attribute of window"
 }
 
+const store = createStore(reducer)
+store.dispatch({
+  type: 'SET_STATE',
+  state: {
+    members: [{
+      name: '',
+      address: '',
+      latlng: undefined,
+      latlng_dirty: true,
+      party: '',
+      id: '',
+    }, {
+      name: '',
+      address: '',
+      latlng: undefined,
+      latlng_dirty: true,
+      party: '',
+      id: '',
+    }, {
+      name: '',
+      address: '',
+      latlng: undefined,
+      latlng_dirty: true,
+      party: '',
+      id: '',
+    }]
+  }
+})
+
+const routes = <Route component={App}>
+  <Route path="/" component={AddressFormSetContainer} />
+</Route>
+
 ReactDOM.render(
-  <AddressFormSet total_forms={4} initial_forms={0} max_forms={7} action='/' method='post' csrftoken={window.csrftoken}/>,
+  <Provider store={store}>
+    <Router>{routes}</Router>
+  </Provider>,
   document.getElementById('app')
 );
 

@@ -1,9 +1,9 @@
 import {expect} from 'chai';
-import {List} from 'immutable';
+import {List, fromJS} from 'immutable';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
-import AddressFormSet from '../../assets/js/components/AddressFormSet';
+import {AddressFormSet} from '../../assets/js/components/AddressFormSet';
 import MemberForm from '../../assets/js/components/MemberForm';
 
 const {
@@ -25,22 +25,52 @@ const TableWrapper = React.createClass({
 
 describe('Member Formset', () => {
   it('renders a specified number of MemberForms', () => {
-    const num_memberforms = 4
+    const members = fromJS([{
+        name: '',
+        address: '',
+        latlng_dirty: true,
+        latlng: undefined,
+        party: '',
+        id: '',
+      }, {
+        name: '',
+        address: '',
+        latlng_dirty: true,
+        latlng: undefined,
+        party: '',
+        id: '',
+      }, {
+        name: '',
+        address: '',
+        latlng_dirty: true,
+        latlng: undefined,
+        party: '',
+        id: '',
+      }
+    ])
     const component = renderIntoDocument(
-      <AddressFormSet total_forms={num_memberforms} initial_forms={0} max_forms={7} action='/'
+      <AddressFormSet members={members} initial_forms={0} max_forms={7} action='/'
          method='post' csrftoken={window.csrftoken}/>
     )
     const memberforms = scryRenderedComponentsWithType(component, MemberForm)
-    expect(memberforms.length).to.equal(num_memberforms)
+    expect(memberforms.length).to.equal(members.size)
   })
 })
 
 describe('Member Form', () => {
   it('has the correct names for inputs', () => {
     const i = 3;
+    const member = fromJS({
+        name: '',
+        address: '',
+        latlng_dirty: true,
+        latlng: undefined,
+        party: '',
+        id: '',
+    })
     const component = renderIntoDocument(
       <TableWrapper>
-        <MemberForm membernumber={i} key={'form-member-'+i} />
+        <MemberForm membernumber={i} key={'form-member-'+i} member={member}/>
       </TableWrapper>
     )
     const inputs = scryRenderedDOMComponentsWithTag(component, 'input')
@@ -52,9 +82,17 @@ describe('Member Form', () => {
 
   it('has the correct name for textareas', () => {
     const i = 3;
+    const member = fromJS({
+        name: '',
+        address: '',
+        latlng_dirty: true,
+        latlng: undefined,
+        party: '',
+        id: '',
+    })
     const component = renderIntoDocument(
       <TableWrapper>
-        <MemberForm membernumber={i} key={'form-member-'+i} />
+        <MemberForm membernumber={i} key={'form-member-'+i} member={member}/>
       </TableWrapper>
     )
     const textarea = findRenderedDOMComponentWithTag(component, 'textarea')
