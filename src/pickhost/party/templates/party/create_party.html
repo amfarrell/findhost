@@ -1,9 +1,15 @@
-<div>
-  <form action="{% url 'create_party' %}" method="post">
-  <table>
-    {% csrf_token %}
-    {{ formset.as_table }}
-  </table>
-  <button type="submit">submit</button>
-  </form>
-</div>
+{% load render_bundle from webpack_loader %}
+<html>
+  <head>
+    {% render_bundle 'main' 'css' %}
+  </head>
+  <body>
+    <div>
+      <script>
+        window.csrftoken = "{{ csrf_token }}"
+      </script>
+      <div id="app">Text is replaced</div>
+      {% render_bundle 'main' 'js' %}
+    </div>
+  </body>
+</html>

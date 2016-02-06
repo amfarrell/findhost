@@ -3,3 +3,4 @@ requests
 dj_database_url
 django
 pytest-django
+django-webpack-loader
