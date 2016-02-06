@@ -8,16 +8,16 @@ export default React.createClass({
 
 
   render: function() {
-    const num = this.props.membernumber
-    console.log("form rerendered" + num)
-    return <tr key={"form-member-"+num}>
+    const index = this.props.index
+    console.log('\n\nINDEX:\t\t\t'+index)
+    return <tr key={"form-member-"+index}>
           <td>
-            <input id={"id_member_set-"+num+"-id"} name={"member_set-"+num+"-id"} type="hidden" value={this.props.member.id}/>
-            <input id={"id_member_set-"+num+"-party"} name={"member_set-"+num+"-party"} type="hidden" value={this.props.member.party} />
-            <input id={"id_member_set-"+num+"-name"} maxLength="128" name={"member_set-"+num+"-name"} type="text" value={this.props.member.name} />
+            <input id={"id_member_set-"+index+"-id"} name={"member_set-"+index+"-id"} type="hidden" value={this.props.member.get('id')}/>
+            <input id={"id_member_set-"+index+"-party"} name={"member_set-"+index+"-party"} type="hidden" value={this.props.member.get('party')} />
+            <input id={"id_member_set-"+index+"-name"} maxLength="128" name={"member_set-"+index+"-name"} type="text" value={this.props.member.get('name')} />
           </td>
           <td>
-            <AddressInput membernumber={num} member={this.props.member}/>
+            <AddressInput index={index} member={this.props.member}/>
           </td>
         </tr>
   }

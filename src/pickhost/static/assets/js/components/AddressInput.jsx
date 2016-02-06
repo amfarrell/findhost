@@ -10,7 +10,8 @@ export default React.createClass({
   When a user enters an address, will ask the google maps geocoding API for the coordinates.
   */
   render: function() {
-    const num = this.props.membernumber
-    return <textarea cols="40" id={"id_member_set-"+num+"-address"} name={"member_set-"+num+"-address"} rows="2" value={this.props.member.address}></textarea>
+    const index = this.props.index;
+    const addr = this.props.member.get('address');
+    return <textarea cols="40" id={"id_member_set-"+index+"-address"} name={"member_set-"+index+"-address"} rows="2" value={addr}></textarea>
   }
 })

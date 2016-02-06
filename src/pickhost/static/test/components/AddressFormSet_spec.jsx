@@ -59,7 +59,7 @@ describe('Member Formset', () => {
 
 describe('Member Form', () => {
   it('has the correct names for inputs', () => {
-    const i = 3;
+    const index = 3;
     const member = fromJS({
         name: '',
         address: '',
@@ -70,18 +70,18 @@ describe('Member Form', () => {
     })
     const component = renderIntoDocument(
       <TableWrapper>
-        <MemberForm membernumber={i} key={'form-member-'+i} member={member}/>
+        <MemberForm index={index} key={'form-member-'+index} member={member}/>
       </TableWrapper>
     )
     const inputs = scryRenderedDOMComponentsWithTag(component, 'input')
     const names = inputs.map((input) => input.name)
-    expect(names).to.include("member_set-"+i+"-name")
-    expect(names).to.include("member_set-"+i+"-id")
-    expect(names).to.include("member_set-"+i+"-party")
+    expect(names).to.include("member_set-"+index+"-name")
+    expect(names).to.include("member_set-"+index+"-id")
+    expect(names).to.include("member_set-"+index+"-party")
   })
 
   it('has the correct name for textareas', () => {
-    const i = 3;
+    const index = 3;
     const member = fromJS({
         name: '',
         address: '',
@@ -89,85 +89,38 @@ describe('Member Form', () => {
         latlng: undefined,
         party: '',
         id: '',
-    })
+    });
     const component = renderIntoDocument(
       <TableWrapper>
-        <MemberForm membernumber={i} key={'form-member-'+i} member={member}/>
+        <MemberForm index={index} key={'form-member-'+index} member={member}/>
       </TableWrapper>
-    )
+    );
     const textarea = findRenderedDOMComponentWithTag(component, 'textarea')
-    expect(textarea.name).to.equal("member_set-"+i+"-address")
+    expect(textarea.name).to.equal("member_set-"+index+"-address")
+  });
+
+  it('displays the value contained in the member name and address', () => {
+    const index = 3;
+    const address = '70 Massachusetts Avenue';
+    const name = 'MIT';
+    const member = fromJS({
+        name: name,
+        address: address,
+        latlng_dirty: true,
+        latlng: undefined,
+        party: '',
+        id: '',
+    });
+    const component = renderIntoDocument(
+      <TableWrapper>
+        <MemberForm index={index} key={'form-member-'+index} member={member}/>
+      </TableWrapper>
+    );
+    const textarea = findRenderedDOMComponentWithTag(component, 'textarea');
+    const inputs = scryRenderedDOMComponentsWithTag(component, 'input');
+    const input_values = inputs.map((input) => input.value)
+    expect(input_values).to.include(name)
+    expect(textarea.value).to.equal(address);
+
   })
 })
-
-
-/*
-describe('Voting', () => {
-  it('renders a pair of buttons', () => {
-    const component = renderIntoDocument(
-      <Voting pair={["Trainspotting", "28 Days Later"]} />
-    );
-    const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
-
-    expect(buttons.length).to.equal(2);
-    expect(buttons[0].textContent).to.equal('Trainspotting');
-    expect(buttons[1].textContent).to.equal('28 Days Later');
-  });
-  it('invokes callback when a button is clicked', () => {
-    let votedWith;
-    const vote = (entry) => votedWith = entry;
-
-    const component = renderIntoDocument(
-      <Voting pair={["Trainspotting", "28 Days Later"]}
-              vote={vote}/>
-    );
-    const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
-    Simulate.click(buttons[0]);
-
-    expect(votedWith).to.equal('Trainspotting');
-  });
-  it('disables buttons when user has voted', () => {
-    const component = renderIntoDocument(
-      <Voting pair={["Trainspotting", "28 Days Later"]}
-              hasVoted="Trainspotting" />
-    );
-    const buttons = scryRenderedDOMComponentsWithTag(component, 'button');
-
-    expect(buttons.length).to.equal(2);
-    expect(buttons[0].hasAttribute('disabled')).to.equal(true);
-    expect(buttons[1].hasAttribute('disabled')).to.equal(true);
-  });
-
-  it('does update DOM when prop changes', () => {
-    const pair = List.of('Trainspotting', '28 Days Later');
-    const component = renderIntoDocument(
-      <Voting pair={pair} />
-    );
-
-    let firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
-    expect(firstButton.textContent).to.equal('Trainspotting');
-
-    const newPair = pair.set(0, 'Sunshine');
-    component.setProps({pair: newPair});
-    firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
-    expect(firstButton.textContent).to.equal('Sunshine');
-  });
-
-
-  it('renders as a pure component', () => {
-    const pair = ['Trainspotting', '28 Days Later'];
-    const component = renderIntoDocument(
-      <Voting pair={pair} />
-    );
-
-    let firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
-    expect(firstButton.textContent).to.equal('Trainspotting');
-
-    pair[0] = 'Sunshine';
-    component.setProps({pair: pair});
-    firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
-    expect(firstButton.textContent).to.equal('Trainspotting');
-  });
-})
-
-*/

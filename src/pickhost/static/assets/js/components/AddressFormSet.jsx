@@ -34,9 +34,10 @@ export const AddressFormSet = React.createClass({
           <tr>
             <th>Name</th><th>Address</th>
           </tr>
-        {range(this.props.members.size).map(i =>
-          <MemberForm membernumber={i} member={this.props.members.get(i)} key={'form-member-'+i} />
-        )}
+        {range(this.props.members.size).map((index) => {
+          console.log('assigning index'+index)
+          return <MemberForm index={index} member={this.props.members.get(index)} key={'form-member-'+index} />
+        })}
         </tbody>
       </table>
       <button type="submit">submit</button>
