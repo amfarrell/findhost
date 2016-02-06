@@ -24,11 +24,11 @@ function removeMember(members = List(), index){
 }
 
 function updateName(members, index, name) {
-  console.log(action)
+  return members.updateIn([index, 'name'], (name) => name)
 }
 
 function updateAddress(members, index, address) {
-  console.log(action)
+  return members.updateIn([index, 'address'], (name) =>  address)
 }
 
 function submit(members) {
@@ -45,7 +45,7 @@ export default function(state = Map(), action) {
   case 'CHANGE_ADDRESS':
     return state.update('members', (members) => updateAddress(members, action.index, action.address))
   case 'SUBMIT':
-    return state.update('members', (members) => submit(members))
+    return state.update('members', submit)
   case 'ADD_MEMBER':
     return state.update('members', addMember);
   case 'REMOVE_MEMBER':
@@ -53,3 +53,10 @@ export default function(state = Map(), action) {
   }
   return state;
 }
+
+/*
+  case 'CHANGE_NAME':
+    return state.updateIn(['members', action.index], (member) => updateName(member, action.name))
+  case 'CHANGE_ADDRESS':
+    return state.updateIn(['members', action.index], (member) => updateAddress(member, action.address))
+*/
