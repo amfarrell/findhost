@@ -47,7 +47,8 @@
     "watch-run": "^1.2.4",
     "webpack": "^1.12.12",
     "webpack-bundle-tracker": "0.0.93",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
+    "xhr": "^2.2.0"
   },
   "babel": {
     "presets": [

@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
 from django import forms
 from django.core.urlresolvers import reverse
+from django.http import JsonResponse
 
 from .models import Party, Member
 from .forms import PartyFormSet
+from .pick import pick_address
+import json
 
 # Create your views here.
 
@@ -14,7 +17,9 @@ def create_party(request):
                 'formset': PartyFormSet()
             })
     else:
-        formset = PartyFormSet(request.POST)
+        data = json.loads(request.body.decode('utf8'))
+
+        formset = PartyFormSet(data)
         if not formset.is_valid():
             return render(request, 'party/create_party.html', {
                     'formset': formset
@@ -24,6 +29,7 @@ def create_party(request):
             for form in formset.forms:
                 form.instance.party = party
                 form.save()
+            return JsonResponse({'best_destination': pick_address(party)})
             return redirect(reverse('show_party', kwargs={'party_uuid': party.uuid}))
 
 def show_party(request, party_uuid):

@@ -17,3 +17,8 @@ export function submitForm(){
 export function geocodeFinished(address, latlng){
   return {type: 'GEOCODE_FINISHED', address: address, latlng: latlng}
 }
+
+export function picked(best){
+  return {type: 'PICKED', best: best}
+
+}
