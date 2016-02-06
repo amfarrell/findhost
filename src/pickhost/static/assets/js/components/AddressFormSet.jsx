@@ -4,7 +4,8 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 
-import MemberForm from './MemberForm'
+import MemberForm from './MemberForm';
+import * as actionCreators from '../action_creators';
 
 export const AddressFormSet = React.createClass({
   mixins: [PureRenderMixin],
@@ -36,11 +37,17 @@ export const AddressFormSet = React.createClass({
           </tr>
         {range(this.props.members.size).map((index) => {
           console.log('assigning index'+index)
-          return <MemberForm index={index} member={this.props.members.get(index)} key={'form-member-'+index} />
+          return <MemberForm index={index} member={this.props.members.get(index)} key={'form-member-'+index}
+            changeName={this.props.changeName} changeAddress={this.props.changeAddress}
+             />
         })}
         </tbody>
       </table>
-      <button type="submit">submit</button>
+      <button type="submit"
+        onClick={(evt) => {
+          evt.preventDefault()
+          this.props.submitForm()
+        }} >submit</button>
     </form>
 
   }
@@ -52,4 +59,7 @@ function mapStateToProps(state) {
   }
 }
 
-export const AddressFormSetContainer = connect(mapStateToProps)(AddressFormSet);;
+export const AddressFormSetContainer = connect(
+  mapStateToProps,
+  actionCreators
+)(AddressFormSet);;

@@ -5,6 +5,7 @@ import {Provider} from 'react-redux';
 import {createStore} from 'redux'
 import ReactDOM from 'react-dom';
 import {AddressFormSetContainer} from './components/AddressFormSet.jsx';
+import {setState} from './action_creators'
 import reducer from './reducer'
 import Router, {Route} from 'react-router';
 import App from './app'
@@ -14,33 +15,30 @@ if ('undefined' == typeof(window.csrftoken)){
 }
 
 const store = createStore(reducer)
-store.dispatch({
-  type: 'SET_STATE',
-  state: {
-    members: [{
-      name: '',
-      address: '',
-      latlng: undefined,
-      latlng_dirty: true,
-      party: '',
-      id: '',
-    }, {
-      name: '',
-      address: '',
-      latlng: undefined,
-      latlng_dirty: true,
-      party: '',
-      id: '',
-    }, {
-      name: '',
-      address: '',
-      latlng: undefined,
-      latlng_dirty: true,
-      party: '',
-      id: '',
-    }]
-  }
-})
+store.dispatch(setState({
+  members: [{
+    name: 'MIT',
+    address: '70 Massachusetts Avenue',
+    latlng: undefined,
+    latlng_dirty: true,
+    party: '',
+    id: '',
+  }, {
+    name: '',
+    address: '',
+    latlng: undefined,
+    latlng_dirty: true,
+    party: '',
+    id: '',
+  }, {
+    name: '',
+    address: '',
+    latlng: undefined,
+    latlng_dirty: true,
+    party: '',
+    id: '',
+  }]
+}))
 
 const routes = <Route component={App}>
   <Route path="/" component={AddressFormSetContainer} />
