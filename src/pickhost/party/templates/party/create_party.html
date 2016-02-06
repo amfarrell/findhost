@@ -1,39 +1,22 @@
-<div>
-  <form action="{% url 'create_party' %}" method="post">
-  <table>
-    {% csrf_token %}
-    {{ formset.as_table }}
-  </table>
-  <button type="submit">submit</button>
-  </form>
-</div>
-<script src="https://maps.googleapis.com/maps/api/js">
-</script>
-<script>
-var geocoder = new google.maps.Geocoder();
-function codeAddress(name, address){
-    geocoder.geocode({'address': address}, function(results, status){
-      if (status == google.maps.GeocoderStatus.OK){
-        console.log('{"'+name+'", "'+results[0].geometry.location.toUrlValue()+'"},')
-      } else {
-        console.log("Geocode was unsuccessful becase " + status)
-      }
-    })
-}
-party = 0
-codeAddress("MIT", "70 Massachusetts Avenue, cambridge MA")
-var addresses = [{'party': party, 'name': 'Taza Chocolate',
-    'address': '561 Windsor St, Somerville, MA 02143',
-}, {'party': party, 'name': 'Cambridgeside Gallaria',
-    'address': '100 Cambridgeside Pl, Cambridge, MA 02141',
-}, {'party': party, 'name': 'Redbones BBQ',
-    'address': '55 Chester St, Somerville, MA 02144',
-}, {'party': party, 'name': 'Cambridge Friends School',
-    'address': '5 Cadbury Rd, Cambridge, MA 02140',
-}, {'party': party, 'name': 'Market Basket',
-    'address': '400 Somerville Ave, Somerville, MA 02143',
-}]
-addresses.forEach(function(dict) {
-  codeAddress(dict['name'], dict['address'])
-})
-</script>
+{% load render_bundle from webpack_loader %}
+
+<html>
+  <head>
+    {% render_bundle 'main' 'css' %}
+  </head>
+  <body>
+    <div>
+        <script src="https://maps.googleapis.com/maps/api/js">
+        </script>
+        <script>
+        window.geocoder = new google.maps.Geocoder();
+        window.google = google;
+        </script>
+      <script>
+        window.csrftoken = "{{ csrf_token }}"
+      </script>
+      <div id="app">Text is replaced</div>
+      {% render_bundle 'main' 'js' %}
+    </div>
+  </body>
+</html>
