@@ -33,7 +33,7 @@ export const AddressFormSet = React.createClass({
       <table>
         <tbody>
           <tr>
-            <th>Name</th><th>Address</th>
+            <th>Name</th><th>Address</th><th>Coordinates</th>
           </tr>
         {range(this.props.members.size).map((index) => {
           console.log('assigning index'+index)

@@ -24,7 +24,13 @@ if ('undefined' == typeof(window.geocoder) || 'undefined' == typeof(window.googl
   */
 export function applyGeocode(members, address, latlng) {
   console.log("applying geocode "+latlng+" for address "+address)
-  return members
+  return members.map((member) => {
+    if (member.get('address') === address) {
+      return member.merge({'latlng': latlng, 'latlng_dirty': false})
+    } else {
+      return member
+    }
+  })
 }
 
 export function getGeocode(address) {
