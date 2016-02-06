@@ -23,8 +23,8 @@ const TableWrapper = React.createClass({
   }
 })
 
-describe('Member Formset', () => {
-  it('renders a specified number of MemberForms', () => {
+describe('Member Formset and children', () => {
+  it('render a specified number of MemberForms', () => {
     const members = fromJS([{
         name: '',
         address: '',
@@ -58,7 +58,7 @@ describe('Member Formset', () => {
 })
 
 describe('Member Form', () => {
-  it('has the correct names for inputs', () => {
+  it('have the correct names for inputs', () => {
     const index = 3;
     const member = fromJS({
         name: '',
@@ -80,7 +80,7 @@ describe('Member Form', () => {
     expect(names).to.include("member_set-"+index+"-party")
   })
 
-  it('has the correct name for textareas', () => {
+  it('have the correct name for textareas', () => {
     const index = 3;
     const member = fromJS({
         name: '',
@@ -99,7 +99,7 @@ describe('Member Form', () => {
     expect(textarea.name).to.equal("member_set-"+index+"-address")
   });
 
-  it('displays the value contained in the member name and address', () => {
+  it('display the value contained in the member name and address', () => {
     const index = 3;
     const address = '70 Massachusetts Avenue';
     const name = 'MIT';
