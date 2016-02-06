@@ -32,7 +32,7 @@ function updateAddress(members, index, address) {
 }
 
 function submit(members) {
-  console.log("submitting "+members)
+  return members
 }
 
 export default function(state = Map(), action) {
