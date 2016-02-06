@@ -21,6 +21,7 @@ def create_party(request):
 
         formset = PartyFormSet(data)
         if not formset.is_valid():
+            return JsonResponse({'errors': formset.errors()})
             return render(request, 'party/create_party.html', {
                     'formset': formset
                 })

@@ -83,7 +83,7 @@ export default function(state = Map(), action) {
   case 'GEOCODE_FINISHED':
     return state.update('members', (members) => applyGeocode(members, action.address, action.latlng));
   case 'PICKED':
-    return state.update('best', (oldBest) => action.best)
+    return state.update('best', (oldBest) => action.best);
   case 'ADD_MEMBER':
     return state.update('members', addMember);
   case 'REMOVE_MEMBER':
