@@ -8,7 +8,7 @@ class RequireInlineFormSet(forms.BaseInlineFormSet):
             form.empty_permitted = False
 
 PartyFormSet = forms.inlineformset_factory(Party, Member,
-    fields=('name', 'address',),
+    fields=('name', 'address', 'latlng'),
     can_delete=False,
     can_order=False,
     extra=2,

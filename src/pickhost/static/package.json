@@ -30,6 +30,8 @@
     "babel-preset-react": "^6.3.13",
     "chai": "^3.5.0",
     "chai-immutable": "^1.5.3",
+    "geocoder": "^0.2.2",
+    "google-geocoding": "^0.1.7",
     "history": "^1.17.0",
     "jsdom": "^8.0.2",
     "mocha": "^2.4.5",
@@ -45,7 +47,8 @@
     "watch-run": "^1.2.4",
     "webpack": "^1.12.12",
     "webpack-bundle-tracker": "0.0.93",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
+    "xhr": "^2.2.0"
   },
   "babel": {
     "presets": [

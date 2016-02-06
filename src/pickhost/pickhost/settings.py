@@ -151,3 +151,5 @@ LOGGING = {
         },
     },
 }
+CITYMAPPER_API_KEY = os.environ['CITYMAPPER_API_KEY']
+CITYMAPPER_URL = os.environ.get('CITYMAPPER_URL', 'https://developer.citymapper.com')

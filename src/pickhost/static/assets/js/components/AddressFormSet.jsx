@@ -33,7 +33,7 @@ export const AddressFormSet = React.createClass({
       <table>
         <tbody>
           <tr>
-            <th>Name</th><th>Address</th>
+            <th>Name</th><th>Address</th><th>Coordinates</th>
           </tr>
         {range(this.props.members.size).map((index) => {
           console.log('assigning index'+index)
@@ -48,6 +48,9 @@ export const AddressFormSet = React.createClass({
           evt.preventDefault()
           this.props.submitForm()
         }} >submit</button>
+      <p>
+      {this.props.best}
+      </p>
     </form>
 
   }
@@ -55,7 +58,8 @@ export const AddressFormSet = React.createClass({
 
 function mapStateToProps(state) {
   return {
-    members: state.get('members')
+    members: state.get('members'),
+    best: state.get('best')
   }
 }
 

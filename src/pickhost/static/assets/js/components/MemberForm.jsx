@@ -26,6 +26,7 @@ export default React.createClass({
           <td>
             <AddressInput index={index} member={this.props.member} changeAddress={this.props.changeAddress}/>
           </td>
+          <td>{this.props.member.get('latlng')}</td>
         </tr>
   }
 });
