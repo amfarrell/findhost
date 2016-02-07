@@ -1,5 +1,5 @@
 import {Map, List, fromJS} from 'immutable';
-import {getGeocode, applyGeocode} from './geocode';
+import {getGeocode, applyGeocode, removeMarker, pickMarker} from './geo';
 import {picked} from './action_creators'
 import xhr from 'xhr'
 import store from './store'
@@ -13,6 +13,7 @@ function addMember(members = List()){
     address: '',
     latlng: undefined,
     latlng_dirty: true,
+    marker: undefined,
     party: '',
     id: '',
   }))
@@ -23,6 +24,7 @@ function removeMember(members = List(), index){
   if (0 === members.size){
     return members
   } else {
+    removeMarker(member)
     return members.remove(index)
   }
 }
@@ -33,13 +35,12 @@ function updateName(members, index, name) {
 
 function updateAddress(members, index, address) {
   getGeocode(address)
+  members = members.updateIn([index, 'latlng_dirty'], (oldlatlng_dirty) =>  true)
   return members.updateIn([index, 'address'], (oldaddress) =>  address)
 }
 
 function submit(state) {
   const body = {
-    csrftoken: window.csrftoken,
-    csrf_token: window.csrftoken,
     csrfmiddlewaretoken: window.csrftoken,
     "member_set-TOTAL_FORMS": state.get('members').size,
     "member_set-INITIAL_FORMS": 0,
@@ -53,6 +54,7 @@ function submit(state) {
     body["member_set-"+index+"-latlng"] = member.get('latlng')
     body["member_set-"+index+"-address"] = member.get('address')
   })
+  state.set('throbber', true);
   xhr({
     body: JSON.stringify(body),
     uri: "/",
@@ -63,10 +65,13 @@ function submit(state) {
     }
   }, (error, response, body) =>{
     const data = JSON.parse(body)
-    console.log(body);
     store.dispatch(picked(data.best_destination.address))
   })
   return state
+}
+function setBest(state, address){
+  pickMarker(state.get('members'), address)
+  return state.update('best', (oldBest) => address)
 }
 
 export default function(state = Map(), action) {
@@ -83,7 +88,7 @@ export default function(state = Map(), action) {
   case 'GEOCODE_FINISHED':
     return state.update('members', (members) => applyGeocode(members, action.address, action.latlng));
   case 'PICKED':
-    return state.update('best', (oldBest) => action.best);
+    return setBest(state, action.address)
   case 'ADD_MEMBER':
     return state.update('members', addMember);
   case 'REMOVE_MEMBER':

@@ -18,7 +18,6 @@ from django.contrib import admin
 from party import views
 
 urlpatterns = [
-    url(r'^$', views.create_party, name="create_party"),
+    url(r'^$', views.party, name="party"),
     url(r'^admin/', admin.site.urls),
-    url(r'^party/(?P<party_uuid>.*)/', views.show_party, name="show_party"),
 ]

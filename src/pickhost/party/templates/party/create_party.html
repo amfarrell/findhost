@@ -6,15 +6,18 @@
   </head>
   <body>
     <div>
-        <script src="https://maps.googleapis.com/maps/api/js">
-        </script>
-        <script>
-        window.geocoder = new google.maps.Geocoder();
+      <script src="https://maps.googleapis.com/maps/api/js">
+      </script>
+      <script>
         window.google = google;
-        </script>
+        window.getMapCanvas = function() {return document.getElementById('map-canvas')};
+      </script>
       <script>
         window.csrftoken = "{{ csrf_token }}"
       </script>
+      <div>
+        <div id='map-canvas' style="width: 500px; height: 400px;"></div>
+      </div>
       <div id="app">Text is replaced</div>
       {% render_bundle 'main' 'js' %}
     </div>

@@ -15,8 +15,8 @@ export function geocodeFinished(address, latlng){
   return {type: 'GEOCODE_FINISHED', address: address, latlng: latlng};
 }
 
-export function picked(best){
-  return {type: 'PICKED', best: best};
+export function picked(best_address){
+  return {type: 'PICKED', address: best_address};
 }
 
 export function addMember(){
