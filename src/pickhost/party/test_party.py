@@ -1,10 +1,11 @@
 from django.test import TestCase, Client
 
 from .models import Party, Member
-from .views import create_party
+from .views import party
 from django.core.urlresolvers import reverse
 
 import pytest
+import json
 
 now = pytest.mark.now
 
@@ -40,7 +41,7 @@ def test_create_party():
         member_data[3]['address']
 
 @pytest.mark.django_db
-def test_create_party_with_only_three_members():
+def test_party_with_only_three_members():
     """
     Check that submitting a form with only 3 addresses filled in but
     with more blank fields results in a party and only 3 members being created.
@@ -55,21 +56,25 @@ def test_create_party_with_only_three_members():
         'member_set-0-party': '',
         'member_set-0-address': '70 Massachusetts Avenue\nCambridge MA, 02139',
         'member_set-0-name': 'MIT',
+        'member_set-0-latlng': '42.35925,-71.093781',
         'member_set-1-id': '',
         'member_set-1-party': '',
         'member_set-1-name': 'Taza Chocolate',
         'member_set-1-address': '561 Windsor St, \nSomerville, MA 02143',
+        'member_set-1-latlng': '42.368126,-71.076239',
         'member_set-2-id': '',
         'member_set-2-party': '',
         'member_set-2-name': 'Cambridgeside Gallaria',
         'member_set-2-address': '100 Cambridgeside Pl,\nCambridge, MA 02141',
+        'member_set-2-latlng': '42.395196,-71.122354',
     }
     response = Client().post(
-        reverse('create_party'),
-        form_submitted_data
+        reverse('party'),
+        json.dumps(form_submitted_data),
+        content_type="application/json"
     )
 
-    assert 302 == response.status_code
+    assert 200 == response.status_code
 
     members = tuple(Member.objects.select_related('party').all())
 
@@ -78,7 +83,7 @@ def test_create_party_with_only_three_members():
     assert members[2].name == form_submitted_data['member_set-2-name']
     assert members[2].party == members[1].party
 
-def test_create_party_handle_empty_form_rows():
+def test_party_rejects_empty_form_rows():
     """
     Check that submitting a form with only 3 addresses filled in but
     with more blank fields results in a party and only 3 members being created.
@@ -93,31 +98,37 @@ def test_create_party_handle_empty_form_rows():
         'member_set-0-party': '',
         'member_set-0-address': '70 Massachusetts Avenue\nCambridge MA, 02139',
         'member_set-0-name': 'MIT',
+        'member_set-0-latlng': '42.35925,-71.093781',
         'member_set-1-id': '',
         'member_set-1-party': '',
         'member_set-1-name': 'Taza Chocolate',
         'member_set-1-address': '561 Windsor St, \nSomerville, MA 02143',
+        'member_set-1-latlng': '42.368126,-71.076239',
         'member_set-2-id': '',
         'member_set-2-party': '',
         'member_set-2-name': 'Cambridgeside Gallaria',
         'member_set-2-address': '100 Cambridgeside Pl,\nCambridge, MA 02141',
+        'member_set-2-latlng': '42.395196,-71.122354',
         'member_set-3-id': '',
         'member_set-3-party': '',
         'member_set-3-name': '',
         'member_set-3-address': '',
+        'member_set-3-latlng': '',
         'member_set-4-id': '',
         'member_set-4-party': '',
         'member_set-4-name': '',
         'member_set-4-address': '',
+        'member_set-4-latlng': '',
     }
     response = Client().post(
-        reverse('create_party'),
-        form_submitted_data
+        reverse('party'),
+        json.dumps(form_submitted_data),
+        content_type="application/json"
     )
 
-    import pdb;pdb.set_trace()
     assert 200 == response.status_code
-    assert 'name' in response.context['formset'].errors[3]
-    assert 'address' in response.context['formset'].errors[3]
-    assert 'name' in response.context['formset'].errors[4]
-    assert 'address' in response.context['formset'].errors[4]
+    response_data = json.loads(response.content)
+    assert 'name' in response_data['errors'][3]
+    assert 'address' in response_data['errors'][3]
+    assert 'name' in response_data['errors'][4]
+    assert 'address' in response_data['errors'][4]
