@@ -16,8 +16,9 @@ const geocoder = new window.google.maps.Geocoder();
 
 const map_initialize = function() {
   const mapOptions = {
-    zoom: 8,
-    center: new window.google.maps.LatLng('42.35925','-71.093781'), //Arbitrarily, center on MIT
+    zoom: 12,
+  //  center: new window.google.maps.LatLng('42.35925','-71.093781'), //Arbitrarily, center on MIT
+    center: new window.google.maps.LatLng( '51.524189','-0.106811'), //Arbitrarily, center on London
     mapTypeId: window.google.maps.MapTypeId.ROADMAP
   }
   const map = new window.google.maps.Map(window.getMapCanvas(), mapOptions);
@@ -67,6 +68,7 @@ export function applyGeocode(members, address, latlng) {
 
   const newBounds = new window.google.maps.LatLngBounds();
   const newMembers = members.map((member) => {
+
     if (member.get('address') === address) {
       newBounds.extend(LatLng(latlng));
       if (member.get('marker')) {
@@ -102,8 +104,5 @@ export function getGeocode(address) {
     } else {
       console.log("Geocode was unsuccessful becase " + status)
     }
-    /*
-      Tell the redux store that we will need to apply the geocode
-    */
   });
 }
