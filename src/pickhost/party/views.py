@@ -21,7 +21,7 @@ def party(request):
 
         formset = PartyFormSet(data)
         if not formset.is_valid():
-            return JsonResponse({'errors': formset.errors()})
+            return JsonResponse({'errors': formset.errors})
         else:
             party = Party.objects.create()
             for form in formset.forms:

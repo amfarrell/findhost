@@ -56,7 +56,7 @@ function submit(state) {
   })
   state.set('throbber', true);
   xhr({
-    body: JSON.stringify(body),
+    json: body,
     uri: "/",
     method:  "post",
     headers: {
@@ -64,12 +64,12 @@ function submit(state) {
         "Content-Type": "application/json"
     }
   }, (error, response, body) =>{
-    const data = JSON.parse(body)
-    store.dispatch(picked(data.best_destination.address))
+    store.dispatch(picked(body.best_destination.address))
   })
   return state
 }
 function setBest(state, address){
+  state.set('throbber', true);
   pickMarker(state.get('members'), address)
   return state.update('best', (oldBest) => address)
 }
