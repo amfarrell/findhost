@@ -3,7 +3,12 @@ import urllib
 import random
 from django.conf import settings
 import time
-from math import inf as infinity
+import six
+if six.PY2:
+    from decimal import Decimal
+    infinity = Decimal('Infinity')
+else:
+    from math import inf as infinity
 SLEEP_INTERVAL = 6
 
 def pick_address(party):
@@ -34,6 +39,7 @@ def fake_get_traveltime(start_latlng, end_latlng):
     Given the latlng for a starting point and the latlng for
     an ending point, return the travel time from the first to the second.
     """
+    print("generated fake traveltime")
     return random.randint(5,75)
 
 def get_traveltime(start, end):
