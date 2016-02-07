@@ -41,8 +41,6 @@ function updateAddress(members, index, address) {
 
 function submit(state) {
   const body = {
-    csrftoken: window.csrftoken,
-    csrf_token: window.csrftoken,
     csrfmiddlewaretoken: window.csrftoken,
     "member_set-TOTAL_FORMS": state.get('members').size,
     "member_set-INITIAL_FORMS": 0,
@@ -56,6 +54,7 @@ function submit(state) {
     body["member_set-"+index+"-latlng"] = member.get('latlng')
     body["member_set-"+index+"-address"] = member.get('address')
   })
+  state.set('throbber', true);
   xhr({
     body: JSON.stringify(body),
     uri: "/",
@@ -66,7 +65,6 @@ function submit(state) {
     }
   }, (error, response, body) =>{
     const data = JSON.parse(body)
-    console.log(body);
     store.dispatch(picked(data.best_destination.address))
   })
   return state

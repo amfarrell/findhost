@@ -1,51 +1,44 @@
 //import geocoder from 'google-geocoding'
 //import geocoder from 'geocoder'
-import {geocodeFinished} from './action_creators'
-import store from './store'
+import {geocodeFinished} from './action_creators';
+import store from './store';
 
-if ('undefined' == typeof(window.geocoder) || 'undefined' == typeof(window.google)){
+if ('undefined' == typeof(window.getMapCanvas) || 'undefined' == typeof(window.google)){
   /*
   The npm packages for geocoding are not reliable, therefore, we just put this
   in a script tag.
   */
-  throw "both google and geocoder must be defined on the window"
+  throw "The window object must have the google api object and a function to get the id of the google map div.";
 }
 
-/*
-  function codeAddress(name, address){
-      geocoder.geocode({'address': address}, function(results, status){
-        if (status == google.maps.GeocoderStatus.OK){
-          console.log('{"'+name+'", "'+results[0].geometry.location.toUrlValue()+'"},')
-        } else {
-          console.log("Geocode was unsuccessful becase " + status)
-        }
-      })
-  }
-  */
+
+const geocoder = new window.google.maps.Geocoder();
+
 const map_initialize = function() {
   const mapOptions = {
     zoom: 8,
-    center: new window.google.maps.LatLng('0.0', '0.0'),
+    center: new window.google.maps.LatLng('42.35925','-71.093781'), //Arbitrarily, center on MIT
     mapTypeId: window.google.maps.MapTypeId.ROADMAP
   }
-  const map = new window.google.maps.Map(window.getMapCanvas(),mapOptions);
+  const map = new window.google.maps.Map(window.getMapCanvas(), mapOptions);
   const transitLayer = new google.maps.TransitLayer();
   transitLayer.setMap(map);
-  return map
+  return map;
 }
 
-const map = map_initialize()
+const map = map_initialize();
+
 const makeMarker = function(name, position) {
   return new window.google.maps.Marker({
     position: position,
     map: map,
     title: name
-  })
+  });
 }
 const LatLng = function(latlng_string){
   /* Convert urlstring back to google maps LatLng object */
     const latlng = JSON.parse('['+latlng_string+']');
-    return new window.google.maps.LatLng(latlng[0], latlng[1])
+    return new window.google.maps.LatLng(latlng[0], latlng[1]);
 }
 
 export function removeMarker(member){
@@ -67,8 +60,12 @@ export function pickMarker(members, address){
 }
 
 export function applyGeocode(members, address, latlng) {
-  console.log("applying geocode "+latlng+" for address "+address)
-  const newBounds = new window.google.maps.LatLngBounds()
+  /*
+    Fill in the latitude and longitude value for all members with the given address.
+    Place pins on the map for them and adjust the bounds of the map.
+  */
+
+  const newBounds = new window.google.maps.LatLngBounds();
   const newMembers = members.map((member) => {
     if (member.get('address') === address) {
       newBounds.extend(LatLng(latlng));
