@@ -4,6 +4,10 @@ import {picked} from './action_creators'
 import xhr from 'xhr'
 import store from './store'
 
+if ('undefined' == typeof(window.csrftoken)){
+  throw "Must declare csrftoken as an attribute of window"
+}
+
 function setState(state, newState) {
   return state.merge(newState);
 }
