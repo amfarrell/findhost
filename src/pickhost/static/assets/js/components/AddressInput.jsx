@@ -6,8 +6,9 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 export default React.createClass({
   mixins: [PureRenderMixin],
   /*
-  An address box with a label.
-  When a user enters an address, will ask the google maps geocoding API for the coordinates.
+  An address box, labeled at the top of the table.
+  When a user enters an address, will ask the google
+  maps geocoding API for the coordinates.
   */
   render: function() {
     const index = this.props.index;
