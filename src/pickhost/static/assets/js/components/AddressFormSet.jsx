@@ -33,7 +33,10 @@ export const AddressFormSet = React.createClass({
       <input id="id_member_set-MIN_NUM_FORMS" name="member_set-MIN_NUM_FORMS" type="hidden" value={this.props.min_forms || 0} />
       <input id="id_member_set-MAX_NUM_FORMS" name="member_set-MAX_NUM_FORMS" type="hidden" value={this.props.max_forms || 1000} />
         <div className='row'>
-            <label className='control-label col-xs-6'> Name</label><label className='control-label col-xs-6'>Address</label>
+            <label style={{display: 'flex', justifyContent: 'center'}}
+              className='control-label col-xs-6'> Name</label>
+            <label style={{display: 'flex', justifyContent: 'center'}}
+              className='control-label col-xs-6'>Address</label>
         </div>
         {range(this.props.members.size).map((index) => {
           console.log('assigning index'+index)
