@@ -17,9 +17,25 @@ import bootstrap from 'bootstrap';
 
 ReactDOM.render(
   <Provider store={store}>
-    <div className="container">
-      <MapCanvas />
-      <AddressFormSetContainer />
+    <div className="container" style={{
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection:'column'
+      }}>
+      <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection:'column'
+        }}>
+        <h3>PickHost</h3>
+        <small>Whose place is least inconvenient to meet at?</small>
+      </div>
+      <div className="row">
+        <MapCanvas />
+      </div>
+      <div className="row">
+        <AddressFormSetContainer />
+      </div>
     </div>
   </Provider>,
   document.getElementById('app')
