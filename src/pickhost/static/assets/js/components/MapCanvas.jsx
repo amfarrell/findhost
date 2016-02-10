@@ -2,7 +2,7 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {map, redrawMap} from '../geo';
 
-export const MapCanvas = React.createClass({
+export default React.createClass({
   mixins: [PureRenderMixin],
 
   componentDidMount() {
