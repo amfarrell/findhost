@@ -30,7 +30,8 @@ export default React.createClass({
     the window.
     */
     const width = Math.min(window.innerWidth-20, 525);
-    const height = width;
+    const height = Math.min(window.innerHeight - 400, width);
+    // Give enough height for the rest of the elements.
     console.log("the height is "+height);
     return <div style={{
       width : ''+width+'px',
