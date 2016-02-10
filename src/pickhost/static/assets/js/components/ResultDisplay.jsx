@@ -34,7 +34,9 @@ export default React.createClass({
         <span>{this.props.best.get('address')}</span>
       </div>
     } else {
-      return <div><span></span></div>
+      return <div><span><small>
+        Built with <a href="https://citymapper.com">Citymapper</a> API
+      </small> </span></div>
     }
   }
 })
