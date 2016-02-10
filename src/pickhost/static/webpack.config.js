@@ -25,14 +25,19 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(), // don't reload if there is an error
     new BundleTracker({filename: './webpack-stats.json'}),
+    new webpack.ProvidePlugin({ $: "jquery", jQuery: "jquery" })
   ],
 
   module: {
     loaders: [{
+       // transform JSX -> JS
        test: /\.jsx?$/,
        exclude: /node_modules/,
        loader: 'react-hot!babel'
-     }, // transform JSX -> JS
+     }, {
+        test: require.resolve("jquery"),
+        loader: "imports?jQuery=jquery"
+     }
     ],
   },
 

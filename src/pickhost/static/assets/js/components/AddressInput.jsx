@@ -13,6 +13,7 @@ export default React.createClass({
     const index = this.props.index;
     const addr = this.props.member.get('address');
     return <textarea cols="40" id={"id_member_set-"+index+"-address"}
+       className="form-control"
        name={"member_set-"+index+"-address"} rows="2" value={addr}
        onChange={(evt) => {
          this.props.changeAddress(index, evt.target.value)
