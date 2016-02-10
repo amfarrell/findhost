@@ -24,7 +24,7 @@ const TableWrapper = React.createClass({
   render: function() {
     return (
       <table>{this.props.children}</table>
-    )
+    );
   }
 })
 

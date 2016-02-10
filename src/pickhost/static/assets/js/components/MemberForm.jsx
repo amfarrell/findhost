@@ -6,10 +6,13 @@ import AddressInput from './AddressInput'
 export default React.createClass({
   mixins: [PureRenderMixin],
 
-
   render: function() {
-    const index = this.props.index
-    console.log('\n\nINDEX:\t\t\t'+index)
+    const index = this.props.index;
+    /*
+    Again, we represent the info in the form that
+    is not strictly necessary, but represents what
+    this component does.
+    */
     return <div className='row' style={{
                 display: 'flex',
                 alignItems:'center',
