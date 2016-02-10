@@ -63,7 +63,8 @@ export function removeMarker(member){
   }
 }
 
-export function pickMarker(members, address){
+export function pickMarker(address){
+  const members = store.getState().get('members')
   members.forEach((member) => {
     if (member.get('marker')){
       if (address === member.get('address')){
@@ -82,6 +83,7 @@ export function redrawMap(members){
   if ('undefined' === typeof(members)) {
     members = store.getState().get('members')
   }
+
   const newBounds = new window.google.maps.LatLngBounds();
   let atLeastOnePoint;
   /*

@@ -58,7 +58,8 @@ function submit(state) {
     body["member_set-"+index+"-latlng"] = member.get('latlng')
     body["member_set-"+index+"-address"] = member.get('address')
   })
-  state.set('throbber', true);
+  state = state.updateIn(['best', 'waiting'], () => true);
+  state = state.updateIn(['best', 'address'], () => undefined);
   xhr({
     json: body,
     uri: "/",
@@ -67,18 +68,27 @@ function submit(state) {
         "X-CSRFToken": window.csrftoken,
         "Content-Type": "application/json"
     }
-  }, (error, response, body) =>{
+  }, (error, response, body) => {
+    //This should
     store.dispatch(picked(body.best_destination.address))
   })
   return state
 }
-function setBest(state, address){
-  state.set('throbber', true);
-  pickMarker(state.get('members'), address)
-  return state.update('best', (oldBest) => address)
-}
 
-export default function(state = Map(), action) {
+function setBest(best, address){
+  best = best.update('waiting', () => false);
+  best = best.update('address', () => address);
+  pickMarker(address)
+  return best
+}
+const initialState = Map({
+  best: Map({
+    waiting: false,
+    address: undefined
+  }),
+  members: List()
+})
+export default function(state = initialState, action) {
   state = fromJS(state)
   switch (action.type) {
   case 'SET_STATE':
@@ -92,7 +102,7 @@ export default function(state = Map(), action) {
   case 'GEOCODE_FINISHED':
     return state.update('members', (members) => applyGeocode(members, action.address, action.latlng));
   case 'PICKED':
-    return setBest(state, action.address)
+    return state.update('best', (oldBest) => setBest(state, action.address))
   case 'ADD_MEMBER':
     return state.update('members', addMember);
   case 'REMOVE_MEMBER':
