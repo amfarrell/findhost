@@ -14,8 +14,8 @@ export default React.createClass({
     of javascript.
     */
     window.onresize = () => {
-      this.forceUpdate()
-      redrawMap()
+      this.forceUpdate();
+      redrawMap();
     }
   },
   render: function() {
@@ -32,16 +32,16 @@ export default React.createClass({
     const width = Math.min(window.innerWidth-20, 525);
     const height = Math.min(window.innerHeight - 400, width);
     // Give enough height for the rest of the elements.
-    console.log("the height is "+height);
     return <div style={{
       width : ''+width+'px',
       height : ''+height+'px',
       position: 'relative',
     }}>
       <div id="map-canvas" style={{
-          position: 'absolute',
-          top: 0, right: 0, bottom: 0, left: 0,
-          margin: 0, bottom: 0}}>
+        position: 'absolute',
+        top: 0, right: 0, bottom: 0, left: 0,
+        margin: 0, bottom: 0
+      }}>
       </div>
     </div>
   }

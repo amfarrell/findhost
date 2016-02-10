@@ -7,5 +7,4 @@ store.dispatch(addMember())
 store.dispatch(addMember())
 store.dispatch(addMember())
 
-
 export default store
