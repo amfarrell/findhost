@@ -1,11 +1,11 @@
 import {Map, List, fromJS} from 'immutable';
 import {updateGeocode, removeMarker, EmptyMarker, pickMarker, getPosition} from './geo';
-import {picked} from './action_creators'
-import xhr from 'xhr'
-import store from './store'
+import {picked} from './action_creators';
+import xhr from 'xhr';
+import store from './store';
 
 if ('undefined' == typeof(window.csrftoken)){
-  throw "Must declare csrftoken as an attribute of window"
+  throw "Must declare csrftoken as an attribute of window";
 }
 
 function setState(state, newState) {
@@ -18,26 +18,26 @@ function addMember(members = List()){
     marker: EmptyMarker(),
     party: '',
     id: '',
-  }))
+  }));
 }
 
 function removeMember(members = List(), index){
   if (0 === members.size){
-    return members
+    return members;
   } else {
-    clearMarker(members.get(index).get('marker'))
+    clearMarker(members.get(index).get('marker'));
     //The marker object might stick around. Memory leak negligible.
-    return members.remove(index)
+    return members.remove(index);
   }
 }
 
 function updateName(member, name) {
-  return member.update('name', (oldname) => name)
+  return member.update('name', (oldname) => name);
 }
 
 function updateAddress(member, address) {
-  updateGeocode(member, address)
-  return member.update('address', (oldAddress) => address)
+  updateGeocode(member, address);
+  return member.update('address', (oldAddress) => address);
 }
 
 function submit(state) {
@@ -47,13 +47,13 @@ function submit(state) {
     "member_set-INITIAL_FORMS": 0,
     "member_set-MIN_NUM_FORMS": 0,
     "member_set-MAX_NUM_FORMS": 1000
-  }
+  };
   state.get('members').forEach((member, index) => {
-    body["member_set-"+index+"-id"] = member.get('id')
-    body["member_set-"+index+"-party"] = member.get('party')
-    body["member_set-"+index+"-name"] = member.get('name')
-    body["member_set-"+index+"-latlng"] = getPosition(member)
-    body["member_set-"+index+"-address"] = member.get('address')
+    body["member_set-"+index+"-id"] = member.get('id');
+    body["member_set-"+index+"-party"] = member.get('party');
+    body["member_set-"+index+"-name"] = member.get('name');
+    body["member_set-"+index+"-latlng"] = getPosition(member);
+    body["member_set-"+index+"-address"] = member.get('address');
   })
   state = state.updateIn(['best', 'waiting'], () => true);
   state = state.updateIn(['best', 'address'], () => undefined);
@@ -67,17 +67,18 @@ function submit(state) {
     }
   }, (error, response, body) => {
     //TODO: This should be dispatched somewhere else, not in the reducer.
-    store.dispatch(picked(body.best_destination.address))
+    store.dispatch(picked(body.best_destination.address));
   })
-  return state
+  return state;
 }
 
 function setBest(best, address){
   best = best.update('waiting', () => false);
   best = best.update('address', () => address);
-  pickMarker(address)
-  return best
+  pickMarker(address);
+  return best;
 }
+
 const initialState = Map({
   best: Map({
     waiting: false,
@@ -99,18 +100,17 @@ export default function(state = initialState, action) {
   case 'SUBMIT':
     return submit(state);
   case 'PICKED':
-    return state.update('best', (oldBest) => setBest(state, action.address))
+    return state.update('best', (oldBest) =>
+      setBest(state, action.address))
   case 'ADD_MEMBER':
     return state.update('members', addMember);
+  /*
+  Unused for now. Will be used to create new forms when
+  API access makes it practical to calculate for more than
+  3 party members.
+  */
   case 'REMOVE_MEMBER':
     return state.update('members', (members) => removeMember(members, action.index));
   }
   return state;
 }
-
-/*
-  case 'CHANGE_NAME':
-    return state.updateIn(['members', action.index], (member) => updateName(member, action.name))
-  case 'CHANGE_ADDRESS':
-    return state.updateIn(['members', action.index], (member) => updateAddress(member, action.address))
-*/

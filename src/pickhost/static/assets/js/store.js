@@ -4,5 +4,4 @@ import {setState, addMember, changeName, changeAddress} from './action_creators'
 
 const store = createStore(reducer);
 
-
 export default store;

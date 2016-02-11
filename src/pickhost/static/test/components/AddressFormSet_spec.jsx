@@ -19,7 +19,7 @@ const TableWrapper = React.createClass({
   render: function() {
     return (
       <table>{this.props.children}</table>
-    )
+    );
   }
 })
 
@@ -72,18 +72,18 @@ describe('Member Form', () => {
         latlng: undefined,
         party: '',
         id: '',
-    })
+    });
     const component = renderIntoDocument(
       <TableWrapper>
         <MemberForm index={index} key={'form-member-'+index} member={member}/>
       </TableWrapper>
-    )
-    const inputs = scryRenderedDOMComponentsWithTag(component, 'input')
-    const names = inputs.map((input) => input.name)
-    expect(names).to.include("member_set-"+index+"-name")
-    expect(names).to.include("member_set-"+index+"-id")
-    expect(names).to.include("member_set-"+index+"-party")
-  })
+    );
+    const inputs = scryRenderedDOMComponentsWithTag(component, 'input');
+    const names = inputs.map((input) => input.name);
+    expect(names).to.include("member_set-"+index+"-name");
+    expect(names).to.include("member_set-"+index+"-id");
+    expect(names).to.include("member_set-"+index+"-party");
+  });
 
   it('have the correct name for textareas', () => {
     const index = 3;
@@ -100,8 +100,8 @@ describe('Member Form', () => {
         <MemberForm index={index} key={'form-member-'+index} member={member}/>
       </TableWrapper>
     );
-    const textarea = findRenderedDOMComponentWithTag(component, 'textarea')
-    expect(textarea.name).to.equal("member_set-"+index+"-address")
+    const textarea = findRenderedDOMComponentWithTag(component, 'textarea');
+    expect(textarea.name).to.equal("member_set-"+index+"-address");
   });
 
   it('display the value contained in the member name and address', () => {
@@ -123,8 +123,8 @@ describe('Member Form', () => {
     );
     const textarea = findRenderedDOMComponentWithTag(component, 'textarea');
     const inputs = scryRenderedDOMComponentsWithTag(component, 'input');
-    const input_values = inputs.map((input) => input.value)
-    expect(input_values).to.include(name)
+    const input_values = inputs.map((input) => input.value);
+    expect(input_values).to.include(name);
     expect(textarea.value).to.equal(address);
 
   })

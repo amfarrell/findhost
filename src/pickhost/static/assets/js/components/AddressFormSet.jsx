@@ -11,20 +11,11 @@ import * as actionCreators from '../action_creators';
 export const AddressFormSet = React.createClass({
   mixins: [PureRenderMixin],
 
-  /* props:
-    members
-  [
-    initial_forms
-    min_forms
-    max_forms
-    action
-    method
-    csrftoken
-  ]
-
-  */
-
   render: function() {
+    /*
+      Represent data in the form even though submitting
+      actually occurs via an xhr request.
+    */
     return (<form action={this.props.action || '/'} method={this.props.method || 'post'}>
       <div className='form-group'>
       <input type="hidden" name="csrfmiddlewaretoken" value={this.props.csrftoken || window.csrftoken} />
@@ -39,7 +30,6 @@ export const AddressFormSet = React.createClass({
               className='control-label col-xs-6'>Address</label>
         </div>
         {range(this.props.members.size).map((index) => {
-          console.log('assigning index'+index)
           return <MemberForm index={index} member={this.props.members.get(index)} key={'form-member-'+index}
             changeName={this.props.changeName} changeAddress={this.props.changeAddress}
              />
@@ -73,4 +63,4 @@ function mapStateToProps(state) {
 export const AddressFormSetContainer = connect(
   mapStateToProps,
   actionCreators
-)(AddressFormSet);;
+)(AddressFormSet);
