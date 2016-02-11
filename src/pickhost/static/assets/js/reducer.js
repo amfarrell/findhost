@@ -12,7 +12,7 @@ function setState(state, newState) {
   return state.merge(newState);
 }
 function addMember(members = List()){
-  const newmembers = members.push(Map({
+  return members.push(Map({
     name: '',
     address: '',
     latlng: undefined,
@@ -21,14 +21,13 @@ function addMember(members = List()){
     party: '',
     id: '',
   }))
-  return newmembers
 }
 
 function removeMember(members = List(), index){
   if (0 === members.size){
     return members
   } else {
-    removeMarker(member)
+    removeMarker(members.get(index))
     return members.remove(index)
   }
 }
@@ -69,8 +68,12 @@ function submit(state) {
         "Content-Type": "application/json"
     }
   }, (error, response, body) => {
-    //This should
-    store.dispatch(picked(body.best_destination.address))
+    if (body.errors){
+
+    } else {
+      //This should be dispatched somewhere else, not in the reducer.
+      store.dispatch(picked(body.best_destination.address))
+    }
   })
   return state
 }

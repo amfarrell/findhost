@@ -11,6 +11,7 @@ describe('fromJS works the way I think it does', () => {
         address: '70 Massachusetts Avenue',
         latlng_dirty: true,
         latlng: undefined,
+        marker: undefined,
         party: '',
         id: '',
       }]
@@ -23,6 +24,7 @@ describe('fromJS works the way I think it does', () => {
           address: '70 Massachusetts Avenue',
           latlng_dirty: true,
           latlng: undefined,
+          marker: undefined,
           party: '',
           id: '',
         })
@@ -36,6 +38,7 @@ describe('fromJS works the way I think it does', () => {
           address: '70 Massachusetts Avenue',
           latlng_dirty: true,
           latlng: undefined,
+          marker: undefined,
           party: '',
           id: '',
         })
@@ -58,6 +61,7 @@ describe('reducer', () => {
           address: '70 Massachusetts Avenue',
           latlng_dirty: true,
           latlng: undefined,
+          marker: undefined,
           party: '',
           id: '',
         }]
@@ -65,16 +69,15 @@ describe('reducer', () => {
     };
     const nextState = reducer(undefined, action);
 
-    expect(nextState).to.equal(fromJS({
-      members: [{
-        name: 'MIT',
-        address: '70 Massachusetts Avenue',
-        latlng_dirty: true,
-        latlng: undefined,
-        party: '',
-        id: '',
-      }]
-    }));
+    expect(nextState.get('members')).to.equal(fromJS([{
+      name: 'MIT',
+      address: '70 Massachusetts Avenue',
+      latlng_dirty: true,
+      latlng: undefined,
+      marker: undefined,
+      party: '',
+      id: '',
+    }]));
   });
 
   it('handles NEW_MEMBER', () => {
@@ -84,6 +87,7 @@ describe('reducer', () => {
           address: '70 Massachusetts Avenue',
           latlng_dirty: true,
           latlng: undefined,
+          marker: undefined,
           party: '',
           id: '',
         }]
@@ -93,23 +97,24 @@ describe('reducer', () => {
     };
     const nextState = reducer(state, action);
 
-    expect(nextState).to.equal(fromJS({
-      members: [{
-        name: 'MIT',
-        address: '70 Massachusetts Avenue',
-        latlng: undefined,
-        latlng_dirty: true,
-        party: '',
-        id: '',
-      },{
-        name: '',
-        address: '',
-        latlng: undefined,
-        latlng_dirty: true,
-        party: '',
-        id: '',
-      }]
-    }));
+    expect(nextState.get('members')).to.equal(fromJS([
+    {
+      name: 'MIT',
+      address: '70 Massachusetts Avenue',
+      latlng: undefined,
+      latlng_dirty: true,
+      marker: undefined,
+      party: '',
+      id: '',
+    },{
+      name: '',
+      address: '',
+      latlng: undefined,
+      latlng_dirty: true,
+      marker: undefined,
+      party: '',
+      id: '',
+    }]));
   });
   it('handles REMOVE_MEMBER', () => {
     const state = fromJS({
@@ -118,6 +123,7 @@ describe('reducer', () => {
         address: '70 Massachusetts Avenue',
         latlng: undefined,
         latlng_dirty: true,
+        marker: undefined,
         party: '',
         id: '',
       },{
@@ -125,6 +131,7 @@ describe('reducer', () => {
         address: '',
         latlng: undefined,
         latlng_dirty: true,
+        marker: undefined,
         party: '',
         id: '',
       }]
@@ -134,15 +141,16 @@ describe('reducer', () => {
       index: 0
     }
     const nextState = reducer(state, action);
-    expect(nextState).to.equal(fromJS({
-      members: [{
+    expect(nextState.get('members')).to.equal(fromJS([
+      {
         name: '',
         address: '',
         latlng: undefined,
         latlng_dirty: true,
+        marker: undefined,
         party: '',
         id: '',
-      }]
-    }));
+      }
+    ]));
   });
 });

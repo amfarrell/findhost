@@ -48,9 +48,14 @@ describe('Member Formset and children', () => {
         id: '',
       }
     ])
+    const best = fromJS({
+      waiting: false,
+      address: undefined
+    })
     const component = renderIntoDocument(
-      <AddressFormSet members={members} initial_forms={0} max_forms={7} action='/'
-         method='post' csrftoken={window.csrftoken}/>
+      <AddressFormSet members={members} best={best}
+        initial_forms={0} max_forms={7} action='/'
+        method='post' csrftoken={window.csrftoken}/>
     )
     const memberforms = scryRenderedComponentsWithType(component, MemberForm)
     expect(memberforms.length).to.equal(members.size)
