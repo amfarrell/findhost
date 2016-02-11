@@ -28,7 +28,7 @@ const TableWrapper = React.createClass({
   }
 })
 
-describe.only('Member Formset, children, and redux store', () => {
+describe('Member Formset, children, and redux store', () => {
   it('update values for names', () => {
     const members = fromJS([{
         name: '',
@@ -46,8 +46,13 @@ describe.only('Member Formset, children, and redux store', () => {
         id: '',
       }
     ])
+    const best = fromJS({
+      waiting: false,
+      address: undefined
+    })
     const teststore = createStore(reducer)
-    teststore.dispatch(setState({members: members}))
+    console.log(teststore.getState());
+    teststore.dispatch(setState({members: members, best: best}));
     const component = renderIntoDocument(
       <Provider store={teststore}>
         <AddressFormSetContainer />

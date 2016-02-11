@@ -42,47 +42,43 @@ export const map = function(mapCanvasId){
 }
 
 
-
-const makeMarker = function(name, position) {
+export function EmptyMarker(){
   return new window.google.maps.Marker({
-    position: position,
-    map: map(),
-    title: name
-  });
+    position: new window.google.maps.LatLng(0.0, 0.0),
+  })
 }
 
-const LatLng = function(latlng_string){
-  /* Convert urlstring back to google maps LatLng object */
-    const latlng = JSON.parse('['+latlng_string+']');
-    return new window.google.maps.LatLng(latlng[0], latlng[1]);
+export const clearMarker = function clearMarker(marker){
+  marker.setPosition(new window.google.maps.LatLng(0.0, 0.0));
+  marker.setMap(undefined);
 }
 
-export function removeMarker(member){
-  if (member.get('marker')){
-    member.get('marker').setMap(null);
-  }
+const updateMarker = function updateMarker(marker, latlng, label=''){
+  marker.setMap(map());
+  marker.setPosition(latlng);
+  marker.setLabel(label);
 }
 
 export function pickMarker(address){
   const members = store.getState().get('members')
   members.forEach((member) => {
-    if (member.get('marker')){
-      if (address === member.get('address')){
-        member.get('marker').setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
-      } else {
-        member.get('marker').setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
-      }
+    if (address === member.get('address')){
+      member.get('marker').setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+    } else {
+      member.get('marker').setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
     }
   });
 }
 
-export function redrawMap(members){
+export function getPosition(member){
+  return member.get('marker').getPosition().toUrlValue()
+}
+
+export function redrawMap(){
   /*
   Resize and pan the map based on the updated markers.
   */
-  if ('undefined' === typeof(members)) {
-    members = store.getState().get('members')
-  }
+  const members = store.getState().get('members')
 
   const newBounds = new window.google.maps.LatLngBounds();
   let atLeastOnePoint;
@@ -92,7 +88,7 @@ export function redrawMap(members){
   */
   let points = 0;
   members.forEach((member) => {
-    if ('undefined' !== typeof(member.get('marker'))){
+    if (undefined !== member.get('marker').getMap()){
       atLeastOnePoint = member.get('marker').getPosition();
       newBounds.extend(member.get('marker').getPosition());
       points += 1;
@@ -108,63 +104,16 @@ export function redrawMap(members){
   }
 }
 
-export function applyGeocode(members, address, latlng) {
-  /*
-    Fill in the latitude and longitude value for all members with the given address.
-    Place pins on the map for them and adjust the bounds of the map.
-  */
-
-  const newMembers = members.map((member) => {
-    if (member.get('address') === address) {
-      if (null === latlng){
-        // Position now unknown. Clear the Marker.
-        removeMarker(member)
-        return member.merge({
-          latlng: undefined,
-          latlng_dirty: true,
-          marker: undefined
-        })
-      }
-      if (member.get('marker')) {
-        // Update existing marker to new position.
-        member.get('marker').setPosition(LatLng(latlng));
-        return member.merge({
-          latlng: latlng,
-          latlng_dirty: false,
-          marker: member.get('marker')
-        })
-      } else {
-        // Add new marker.
-        return member.merge({
-          latlng: latlng,
-          latlng_dirty: false,
-          marker: makeMarker(member.get('name'), LatLng(latlng))
-        })
-      }
-    } else {
-      return member
-    }
-  });
-  redrawMap(newMembers);
-  /*
-    Side effects in a reducer.
-    A temporary evil to work around Google Maps.
-    TODO: replace this with a callback after state
-    is updated.
-  */
-  return newMembers;
-}
-
-export function getGeocode(address) {
+export function updateGeocode(member, address) {
   const geocoder = new window.google.maps.Geocoder();
   geocoder.geocode({address: address}, (data, status) => {
     if (status == google.maps.GeocoderStatus.OK){
-      const latlng = data[0].geometry.location.toUrlValue()
-      store.dispatch(geocodeFinished(address, latlng))
       // We got the result back successfully. Update data.
+      updateMarker(member.get('marker'), data[0].geometry.location, member.get('name'))
     } else {
-      // Geocode returned nothing. Update to remove stale data.
-      store.dispatch(geocodeFinished(address, null))
+      // Geocode returned nothing. Update to remove stale location.
+      clearMarker(member.get('marker'))
     }
+    redrawMap()
   });
 }

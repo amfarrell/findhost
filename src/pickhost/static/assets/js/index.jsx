@@ -3,6 +3,7 @@ import {Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
 
 import {AddressFormSetContainer} from './components/AddressFormSet.jsx';
+import {addMember, changeName, changeAddress} from './action_creators'
 import MapCanvas from './components/MapCanvas.jsx';
 import store from './store';
 
@@ -32,8 +33,10 @@ ReactDOM.render(
   document.getElementById('app')
 );
 
+store.dispatch(addMember());
+store.dispatch(addMember());
+store.dispatch(addMember());
 /*
-import {changeName, changeAddress} from './action_creators'
 store.dispatch(changeName(0, 'MIT'))
 store.dispatch(changeAddress(0, '70 Massachusetts Avenue, Cambridge, MA'))
 store.dispatch(changeName(1, 'Cambridgeside Gallaria'))

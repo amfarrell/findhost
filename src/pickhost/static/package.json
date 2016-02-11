@@ -46,6 +46,7 @@
     "react-redux": "^4.4.0",
     "react-router": "^1.0.3",
     "redux": "^3.2.1",
+    "sinon": "^1.17.3",
     "underscore": "^1.8.3",
     "watch-run": "^1.2.4",
     "webpack": "^1.12.12",
