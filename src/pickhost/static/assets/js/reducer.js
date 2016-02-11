@@ -1,5 +1,5 @@
 import {Map, List, fromJS} from 'immutable';
-import {getGeocode, applyGeocode, removeMarker, pickMarker} from './geo';
+import {updateGeocode, removeMarker, EmptyMarker, pickMarker, getPosition} from './geo';
 import {picked} from './action_creators'
 import xhr from 'xhr'
 import store from './store'
@@ -15,9 +15,7 @@ function addMember(members = List()){
   return members.push(Map({
     name: '',
     address: '',
-    latlng: undefined,
-    latlng_dirty: true,
-    marker: undefined,
+    marker: EmptyMarker(),
     party: '',
     id: '',
   }))
@@ -27,19 +25,19 @@ function removeMember(members = List(), index){
   if (0 === members.size){
     return members
   } else {
-    removeMarker(members.get(index))
+    clearMarker(members.get(index).get('marker'))
+    //The marker object might stick around. Memory leak negligible.
     return members.remove(index)
   }
 }
 
-function updateName(members, index, name) {
-  return members.updateIn([index, 'name'], (oldname) => name)
+function updateName(member, name) {
+  return member.update('name', (oldname) => name)
 }
 
-function updateAddress(members, index, address) {
-  getGeocode(address)
-  members = members.updateIn([index, 'latlng_dirty'], (oldlatlng_dirty) =>  true)
-  return members.updateIn([index, 'address'], (oldaddress) =>  address)
+function updateAddress(member, address) {
+  updateGeocode(member, address)
+  return member.update('address', (oldAddress) => address)
 }
 
 function submit(state) {
@@ -54,7 +52,7 @@ function submit(state) {
     body["member_set-"+index+"-id"] = member.get('id')
     body["member_set-"+index+"-party"] = member.get('party')
     body["member_set-"+index+"-name"] = member.get('name')
-    body["member_set-"+index+"-latlng"] = member.get('latlng')
+    body["member_set-"+index+"-latlng"] = getPosition(member)
     body["member_set-"+index+"-address"] = member.get('address')
   })
   state = state.updateIn(['best', 'waiting'], () => true);
@@ -68,12 +66,8 @@ function submit(state) {
         "Content-Type": "application/json"
     }
   }, (error, response, body) => {
-    if (body.errors){
-
-    } else {
-      //This should be dispatched somewhere else, not in the reducer.
-      store.dispatch(picked(body.best_destination.address))
-    }
+    //TODO: This should be dispatched somewhere else, not in the reducer.
+    store.dispatch(picked(body.best_destination.address))
   })
   return state
 }
@@ -97,13 +91,13 @@ export default function(state = initialState, action) {
   case 'SET_STATE':
     return setState(state, fromJS(action.state));
   case 'CHANGE_NAME':
-    return state.update('members', (members) => updateName(members, action.index, action.name));
+    return state.updateIn(['members', action.index], (member) =>
+      updateName(member, action.name));
   case 'CHANGE_ADDRESS':
-    return state.update('members', (members) => updateAddress(members, action.index, action.address));
+    return state.updateIn(['members', action.index], (member) =>
+      updateAddress(member, action.address));
   case 'SUBMIT':
     return submit(state);
-  case 'GEOCODE_FINISHED':
-    return state.update('members', (members) => applyGeocode(members, action.address, action.latlng));
   case 'PICKED':
     return state.update('best', (oldBest) => setBest(state, action.address))
   case 'ADD_MEMBER':
