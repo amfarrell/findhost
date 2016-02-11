@@ -15,7 +15,7 @@ class Party(models.Model):
 
 class Member(models.Model):
     party = models.ForeignKey('party.Party', on_delete=models.CASCADE)
-    name = models.CharField(max_length = 128, null=False, blank=False)
+    name = models.CharField(max_length = 128, null=True, blank=True)
     address = models.TextField(null=False, blank=False)
     latlng = models.CharField(max_length = 128, null=False, blank=False)
 
