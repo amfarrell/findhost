@@ -1,13 +1,15 @@
 import requests
-import urllib
 import random
 from django.conf import settings
 import time
 import six
 if six.PY2:
+    from urlparse import urljoin
     from decimal import Decimal
     infinity = Decimal('Infinity')
 else:
+    from urllib import parse
+    urljoin = parse.urljoin
     from math import inf as infinity
 SLEEP_INTERVAL = 6
 
@@ -49,7 +51,7 @@ def get_traveltime(start, end):
     an ending point, return the travel time from the first to the second.
     Currently, can only call this function 5x per minute.
     """
-    url = urllib.parse.urljoin(settings.CITYMAPPER_URL, '/api/1/traveltime/')
+    url = urljoin(settings.CITYMAPPER_URL, '/api/1/traveltime/')
     sleeptime = SLEEP_INTERVAL
     while True:
         response = requests.get(url=url, params={
