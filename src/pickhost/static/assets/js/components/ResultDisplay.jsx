@@ -26,11 +26,11 @@ export default React.createClass({
 
   render: function() {
     if (this.props.best.get('waiting')){
-      return <div className="alert alert-info">
+      return <div className="notification is-primary">
         <span>Consulting the Citymapper API...</span>
       </div>
     } else if (this.props.best.get('address')){
-      return <div className="alert alert-success">
+      return <div className="notification is-success">
         <span>{this.props.best.get('address')}</span>
       </div>
     } else {

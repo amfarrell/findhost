@@ -15,33 +15,43 @@ export const AddressFormSet = React.createClass({
     /*
       Represent data in the form even though submitting
       actually occurs via an xhr request.
+
+            <p //style={{display: 'flex', justifyContent: 'center'}}
+              className='column is-4'> Name</label>
+            < //style={{display: 'flex', justifyContent: 'center'}}
+              className='column is-4'>Address</label>
+        </div>
     */
     return (<form action={this.props.action || '/'} method={this.props.method || 'post'}>
-      <div className='form-group'>
+      <div >
       <input type="hidden" name="csrfmiddlewaretoken" value={this.props.csrftoken || window.csrftoken} />
       <input id="id_member_set-TOTAL_FORMS" name="member_set-TOTAL_FORMS" type="hidden" value={this.props.members.size} />
       <input id="id_member_set-INITIAL_FORMS" name="member_set-INITIAL_FORMS" type="hidden" value={this.props.initial_forms || 0} />
       <input id="id_member_set-MIN_NUM_FORMS" name="member_set-MIN_NUM_FORMS" type="hidden" value={this.props.min_forms || 0} />
       <input id="id_member_set-MAX_NUM_FORMS" name="member_set-MAX_NUM_FORMS" type="hidden" value={this.props.max_forms || 1000} />
-        <div className='row'>
-            <label style={{display: 'flex', justifyContent: 'center'}}
-              className='control-label col-xs-6'> Name</label>
-            <label style={{display: 'flex', justifyContent: 'center'}}
-              className='control-label col-xs-6'>Address</label>
+        <div className='columns is-mobile'>
+          <div className='column is-1-mobile' style={{display: 'flex', justifyContent: 'center'}}>
+            <span className=''>Name</span>
+          </div>
+          <div className='column is-1-mobile' style={{display: 'flex', justifyContent: 'center', marginTop:0}}>
+            <span className=''>Address</span>
+          </div>
         </div>
-        {range(this.props.members.size).map((index) => {
-          return <MemberForm index={index} member={this.props.members.get(index)} key={'form-member-'+index}
-            changeName={this.props.changeName} changeAddress={this.props.changeAddress}
-             />
-        })}
-        <div className='row' style={{display: 'flex', justifyContent: 'center'}}>
-          <button type="submit" className="btn btn-default"
+        <div className='control'>
+          {range(this.props.members.size).map((index) => {
+            return <MemberForm index={index} member={this.props.members.get(index)} key={'form-member-'+index}
+              changeName={this.props.changeName} changeAddress={this.props.changeAddress}
+               />
+          })}
+        </div>
+        <div className='columns' style={{display: 'flex', justifyContent: 'center'}}>
+          <button type="submit" className="button button"
             onClick={(evt) => {
               evt.preventDefault()
               this.props.submitForm()
             }} >Pick a Host</button>
         </div>
-        <div className='row' style={{
+        <div className='columns' style={{
             display: 'flex',
             justifyContent: 'center',
             paddingTop: '10px'

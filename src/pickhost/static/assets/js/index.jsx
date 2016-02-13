@@ -9,7 +9,7 @@ import store from './store';
 
 ReactDOM.render(
   <Provider store={store}>
-    <div className="container" style={{
+    <div style={{
         display: 'flex',
         alignItems: 'center',
         flexDirection:'column'
@@ -19,13 +19,13 @@ ReactDOM.render(
           alignItems: 'center',
           flexDirection:'column'
         }}>
-        <h3>PickHost</h3>
-        <small>Whose place is least inconvenient to meet at?</small>
+        <h3 className="title is-3">PickHost</h3>
+        <h5 className="subtitble is-5">Whose place is least inconvenient to meet at?</h5>
       </div>
-      <div className="row">
+      <div>
         <MapCanvas />
       </div>
-      <div className="row">
+      <div>
         <AddressFormSetContainer />
       </div>
     </div>
@@ -36,11 +36,11 @@ ReactDOM.render(
 store.dispatch(addMember());
 store.dispatch(addMember());
 store.dispatch(addMember());
-/*
 store.dispatch(changeName(0, 'MIT'))
 store.dispatch(changeAddress(0, '70 Massachusetts Avenue, Cambridge, MA'))
 store.dispatch(changeName(1, 'Cambridgeside Gallaria'))
 store.dispatch(changeAddress(1, '100 Cambridgeside Pl, Cambridge, MA 02141'))
 store.dispatch(changeName(2, 'Redbones BBQ'))
 store.dispatch(changeAddress(2, '55 Chester St, Somerville, MA 02144'))
+/*
 */
