@@ -56,7 +56,6 @@ export const clearMarker = function clearMarker(marker){
 const updateMarker = function updateMarker(marker, latlng, label=''){
   marker.setMap(map());
   marker.setPosition(latlng);
-  marker.setLabel(label);
 }
 
 export function pickMarker(address){
