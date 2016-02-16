@@ -67,6 +67,7 @@ function submit(state) {
     }
   }, (error, response, body) => {
     //TODO: This should be dispatched somewhere else, not in the reducer.
+    //TODO: Handle timeout.
     store.dispatch(picked(body.best_destination.address));
   })
   return state;
