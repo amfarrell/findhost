@@ -16,6 +16,7 @@ function addMember(members = List()){
     name: '',
     address: '',
     marker: EmptyMarker(),
+    error: '',
     party: '',
     id: '',
   }));
@@ -37,10 +38,27 @@ function updateName(member, name) {
 
 function updateAddress(member, address) {
   updateGeocode(member, address);
+  member = member.update('error', () => '')
   return member.update('address', (oldAddress) => address);
 }
 
 function submit(state) {
+  let errors = false;
+  state = state.update('members', (oldMembers) => {
+    return oldMembers.map(member => {
+      if (undefined === member.get('marker').getMap()){
+        errors = true;
+        return member.update('error', oldErr =>
+          'Could not find geocode for address'
+        )
+      } else {
+        return member
+      }
+    })
+  })
+  if (errors){
+    return state;
+  }
   const body = {
     csrfmiddlewaretoken: window.csrftoken,
     "member_set-TOTAL_FORMS": state.get('members').size,

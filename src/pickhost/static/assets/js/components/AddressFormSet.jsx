@@ -15,6 +15,7 @@ export const AddressFormSet = React.createClass({
     /*
       Represent data in the form even though submitting
       actually occurs via an xhr request.
+
     */
     return (<form action={this.props.action || '/'} method={this.props.method || 'post'}>
       <div className='form-group'>
@@ -23,12 +24,6 @@ export const AddressFormSet = React.createClass({
       <input id="id_member_set-INITIAL_FORMS" name="member_set-INITIAL_FORMS" type="hidden" value={this.props.initial_forms || 0} />
       <input id="id_member_set-MIN_NUM_FORMS" name="member_set-MIN_NUM_FORMS" type="hidden" value={this.props.min_forms || 0} />
       <input id="id_member_set-MAX_NUM_FORMS" name="member_set-MAX_NUM_FORMS" type="hidden" value={this.props.max_forms || 1000} />
-        <div className='row'>
-            <label style={{display: 'flex', justifyContent: 'center'}}
-              className='control-label col-xs-6'> Name</label>
-            <label style={{display: 'flex', justifyContent: 'center'}}
-              className='control-label col-xs-6'>Address</label>
-        </div>
         {range(this.props.members.size).map((index) => {
           return <MemberForm index={index} member={this.props.members.get(index)} key={'form-member-'+index}
             changeName={this.props.changeName} changeAddress={this.props.changeAddress}
