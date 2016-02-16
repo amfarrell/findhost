@@ -61,7 +61,7 @@ const updateMarker = function updateMarker(marker, latlng, label=''){
 export function pickMarker(address){
   const members = store.getState().get('members')
   members.forEach((member) => {
-    if (address === member.get('address')){
+    if (address.trim() === member.get('address').trim()){
       member.get('marker').setIcon('https://maps.google.com/mapfiles/ms/icons/green-dot.png')
     } else {
       member.get('marker').setIcon('https://maps.google.com/mapfiles/ms/icons/red-dot.png')
