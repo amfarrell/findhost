@@ -59,7 +59,7 @@ function submit(state) {
   state = state.updateIn(['best', 'address'], () => undefined);
   xhr({
     json: body,
-    uri: "/",
+    uri: window.location.pathname,
     method:  "post",
     headers: {
         "X-CSRFToken": window.csrftoken,
