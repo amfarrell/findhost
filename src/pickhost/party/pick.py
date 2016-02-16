@@ -11,7 +11,7 @@ else:
     from urllib import parse
     urljoin = parse.urljoin
     from math import inf as infinity
-SLEEP_INTERVAL = 6
+SLEEP_INTERVAL = 3
 
 def pick_address(party):
     """
