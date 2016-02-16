@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "./node_modules/.bin/webpack --config webpack.config.js",
+    "build-prod": "webpack --config webpack.prod.config.js",
     "watch": "./node_modules/.bin/webpack --config webpack.config.js --watch",
     "tdb": "node-debug ./node_modules/mocha/bin/_mocha --compilers js:babel-core/register --colors --require ./test/test_helper.js 'test/**/*.@(js|jsx)'",
     "test": "mocha --compilers js:babel-core/register --colors --require ./test/test_helper.js 'test/**/*.@(js|jsx)'",

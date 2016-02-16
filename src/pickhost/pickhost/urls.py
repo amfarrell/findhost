@@ -19,5 +19,6 @@ from party import views
 
 urlpatterns = [
     url(r'^$', views.party, name="party"),
+    url(r'^pickhost/$', views.party, name="party"),
     url(r'^admin/', admin.site.urls),
 ]
