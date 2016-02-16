@@ -20,7 +20,7 @@ ReactDOM.render(
           flexDirection:'column'
         }}>
         <h3>PickHost</h3>
-        <small>Whose place is least inconvenient to meet at?</small>
+        <small>Whose place is most convenient to meet?</small>
       </div>
       <div className="row">
         <MapCanvas />
