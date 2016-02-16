@@ -49,7 +49,7 @@ function submit(state) {
       if (undefined === member.get('marker').getMap()){
         errors = true;
         return member.update('error', oldErr =>
-          'Could not find geocode for address'
+          'Cannot locate this address'
         )
       } else {
         return member
