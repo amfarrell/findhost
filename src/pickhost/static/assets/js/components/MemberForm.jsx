@@ -13,28 +13,26 @@ export default React.createClass({
     is not strictly necessary, but represents what
     this component does.
     */
+
+    let errorVisibility = 'hidden'
+    let className=''
+    if (this.props.member.get('error')){
+      className = 'has-error'
+      errorVisibility = 'visible'
+    }
+
     return <div className='row' style={{
                 display: 'flex',
                 alignItems:'center',
                 marginTop: '5px',
                 marginBottom: '5px',
             }} >
-            <div className='col-xs-6'>
-              <input id={"id_member_set-"+index+"-id"}
-                name={"member_set-"+index+"-id"} type="hidden" value={this.props.member.get('id')}/>
-              <input id={"id_member_set-"+index+"-party"}
-                name={"member_set-"+index+"-party"} type="hidden" value={this.props.member.get('party')} />
-              <input id={"id_member_set-"+index+"-name"} maxLength="128"
-                className='form-control'
-                onChange={(evt) => {
-                  evt.preventDefault();
-                  this.props.changeName(index, evt.target.value)
-                }}
-                name={"member_set-"+index+"-name"} type="text" value={this.props.member.get('name')} />
-            </div>
-            <div className='col-xs-6'>
+            <div className={className} >
               <AddressInput index={index} member={this.props.member} changeAddress={this.props.changeAddress}/>
-            </div>
+              <div style={{visibility: errorVisibility}} className='text-danger'>
+                {this.props.member.get('error') || "no error"}
+              </div>
           </div>
+        </div>
   }
 });
